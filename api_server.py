@@ -17,7 +17,7 @@ class LoginHandler(RequestHandler):
         'last_login_device': 'Android 5.1 OnePlus5'
     }]
 
-    def get(self):
+    def post(self):
         # 读取json数据
         bytes = self.request.body  # 字节类型
         print(bytes)
@@ -52,13 +52,23 @@ class LoginHandler(RequestHandler):
         else:
             self.write('uppload data 必须是json格式')
 
-    def post(self):
+        self.cors()
+
+    def get(self):
         pass
 
     def put(self):
         pass
 
     def delete(self):
+        pass
+
+    def cors(self):
+        self.set_header('Access-Control-Allow-Origin', '*')
+        self.set_header('Access-Control-Allow-Headers', 'x-requested-with')
+        self.set_header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE')
+
+    def on_finish(self):
         pass
 
 

@@ -75,6 +75,9 @@ class TestUserRequest(TestCase):
                             })
 
         # 读取响应的json数据
-        print(resp.json())
+        if resp.headers.get('Content-Type').startswith('application/json'):
+            print(resp.json())
+        else:
+            print(resp.text)
 
 
