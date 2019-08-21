@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 # coding: utf-8
+import json
+
 import tornado.web
 import tornado.ioloop
 import tornado.options
@@ -38,8 +40,17 @@ class IndexHandler(tornado.web.RequestHandler):
 
     def post(self):
         # 新增数据
+        # 读取表单参数
+        # name = self.get_argument('name')
+        # city = self.get_argument('city')
 
-        self.write('<h3>我是POST请求方式</h3>')
+        # 建议使用以下方式
+        name = self.get_body_argument('name')
+        city = self.get_body_argument('city')
+
+        wd = self.get_query_argument('wd')
+
+        self.write('<h3>我是POST请求方式: %s %s, %s </h3>' %(name, city, wd))
 
     def put(self):
         self.write('<h3>我是PUT请求方式</h3>')
@@ -47,10 +58,79 @@ class IndexHandler(tornado.web.RequestHandler):
     def delete(self):
         self.write('<h3>我是Delete请求方式</h3>')
 
+class SearchHandler(tornado.web.RequestHandler):
+    mapper = {
+        'python': 'Python是目前世界最流行的AI语言',
+        'java': 'Java已经是20多年企业级应用开发语言',
+        'H5': 'H5全称是HTML5, 于2014流程的前端WEB标签语言'
+    }
+
+    def get(self):
+        html = """
+            <h3>搜索%s结果</h3>
+            <p>
+                %s
+            </p>
+        """
+
+        wd = self.get_query_argument('wd')
+        result = self.mapper.get(wd)
+
+        # self.write(html % (wd, result))
+        resp_data = {
+            'wd': wd,
+            'result': result
+        }
+        self.write(json.dumps(resp_data))
+        self.set_status(200)  # 设置响应状态码
+        # 设置响应头的数据类型
+        self.set_header('Content-Type', 'application/json;charset=utf-8')
+
+        # cookie操作
+        self.set_cookie('wd', wd)
+
+class CookieHandler(tornado.web.RequestHandler):
+    def get(self):
+        # 验证参数中是否存在 name ?
+        if self.request.arguments.get('name'):
+            # 从查询参数中读取Cookie的名称
+            name = self.get_query_argument('name')
+
+            # 从cookies中获取name的对象或值
+            value = self.get_cookie(name)
+            print(type(value))
+            self.write(value)
+        else:
+            # 查看所有的cookie
+            cookies: dict = self.request.cookies
+            html = '<ul>%s</ul>'
+            lis = []
+            for key in cookies:
+
+                lis.append('<li>%s: %s</li>' % (key, self.get_cookie(key)))
+
+            html = '显示所有cookie' + html % ''.join(lis)
+            html += """
+                <form method="post">
+                    <input name="name" placeholder="请输入cookie的名称">
+                    <button>提交</button>
+                </form>
+            """
+            self.write(html)
+    def post(self):
+        name = self.get_argument('name')
+        if self.request.cookies.get(name, None):
+            # 存在的
+            self.clear_cookie(name)
+            self.write('<h3 style="color:green;">删除 %s 成功</h3>' % name)
+        else:
+            self.write('<h3 style="color:red;">删除 %s 失败， 不存在!</h3>' % name)
 
 def make_app():
     return tornado.web.Application([
         ('/', IndexHandler),
+        ('/search', SearchHandler),
+        ('/cookie', CookieHandler),
     ], default_host=tornado.options.options.host)
 
 
