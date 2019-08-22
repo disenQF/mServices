@@ -4,11 +4,12 @@
 {% end %}
 
 {% block content %}
-<p>
-    {% if error_msg %}
-    <span class="error">{{ error_msg }}</span>
-    {% else %}
-    <span>您来对地方了</span>
-    {% end %}
-</p>
+    <div id="left">
+        {% module Menu() %}
+    </div>
+    <div id="right">
+        <iframe name="content" frameborder="0">
+
+        </iframe>
+    </div>
 {% end %}
