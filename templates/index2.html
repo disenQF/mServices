@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Index Page</title>
+    <link rel="stylesheet" href="{{ static_url('css/my.css') }}">
+</head>
+<body>
+<h1>我是主页</h1>
+
+<nav>
+    <ul>
+        {% for menu in  menus%}
+            <li>{{ menu }}</li>
+        {% end%}
+    </ul>
+</nav>
+
+<p>
+    {{ msg }}
+</p>
+<p>
+{{ 'hi, disen'[-4:] }}
+</p>
+<p>{{ len('hi,disen') }}</p>
+<p>{{ ','.join([str(x**2) for x in range(10)]) }}</p>
+
+<p>
+    {% if error_msg %}
+        <span class="error">{{ error_msg }}</span>
+        {% else %}
+        <span>您来对地方了</span>
+    {% end %}
+</p>
+
+<p>
+    {% if age<18 %}
+        <span class="error">未成年禁足</span>
+        {% elif age > 60 %}
+            <span class="warn">老人家不易进入</span>
+        {% else %}
+        <span class="success">正常</span>
+    {% end %}
+</p>
+<p>
+    <textarea>{{ code }}</textarea>
+</p>
+<p>
+    <script>
+        document.write('{{ code }}')
+    </script>
+</p>
+</body>
+</html>

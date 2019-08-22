@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>{% block title %}主页{% end %}</title>
+    <link rel="stylesheet" href="{{ static_url('css/my.css') }}">
+    {% block css %}{% end %}
+</head>
+<body>
+<div id="nav">
+    {% block nav %}{% end %}
+</div>
+<div id="content">
+    {% block content %}{% end %}
+</div>
+
+<div id="footer">
+    {% block footer %}{% end %}
+</div>
+
+{% block js %}{% end %}
+</body>
+</html>
