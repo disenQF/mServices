@@ -4,6 +4,7 @@ import os
 
 from tornado.web import Application
 
+from app.ui.nav import NavModule
 from app.views.cookie import CookieHandler
 from app.views.index import IndexHandler
 from app.views.order import OrderHandler
@@ -16,7 +17,10 @@ settings = {
     'debug': True,
     'template_path': os.path.join(BASE_DIR, 'templates'),
     'static_path': os.path.join(BASE_DIR, 'static'),
-    'static_url_prefix': '/s/'
+    'static_url_prefix': '/s/',
+    'ui_modules': {
+        'Nav': NavModule
+    }
 }
 
 def make_app(host='localhost'):
