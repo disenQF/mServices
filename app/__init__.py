@@ -10,6 +10,7 @@ from app.views.cookie import CookieHandler
 from app.views.index import IndexHandler
 from app.views.order import OrderHandler
 from app.views.search import SearchHandler
+from app.views.download import DownloadHandler
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # /Users/apple/PycharmProjects/mircoServer
@@ -30,6 +31,7 @@ def make_app(host='localhost'):
         ('/', IndexHandler),
         ('/search', SearchHandler),
         ('/cookie', CookieHandler),
+        ('/download', DownloadHandler),
         (r'/order/(?P<code>\d+)/(?P<id>\d+)', OrderHandler),
 
     ], default_host=host, **settings)
