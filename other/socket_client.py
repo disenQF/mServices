@@ -8,7 +8,6 @@ socket = socket.socket()
 
 # 2. 连接服务器
 socket.connect(('', 8011))
-socket.send(b'connect')
 
 # 3. 接收数据
 msg = socket.recv(4096)  # 阻塞

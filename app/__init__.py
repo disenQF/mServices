@@ -11,6 +11,8 @@ from app.views.index import IndexHandler
 from app.views.order import OrderHandler
 from app.views.search import SearchHandler
 from app.views.download import DownloadHandler, AsyncDownloadHandler, Async2DownloadHandler
+from app.views.message import RobbitHandler, MessageHandler
+from app.views.user import UserHandler
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # /Users/apple/PycharmProjects/mircoServer
 
@@ -22,7 +24,9 @@ settings = {
     'ui_modules': {
         'Nav': NavModule,
         'Menu': MenuModule
-    }
+    },
+    'cookie_secret': '&7d7aldaqaj0019@ak',
+    'xsrf_cookies': True
 }
 
 def make_app(host='localhost'):
@@ -33,6 +37,9 @@ def make_app(host='localhost'):
         ('/download', DownloadHandler),
         ('/download2', AsyncDownloadHandler),
         ('/download3', Async2DownloadHandler),
+        ('/robbit', RobbitHandler),
+        ('/message', MessageHandler),
+        ('/login', UserHandler),
         (r'/order/(?P<code>\d+)/(?P<id>\d+)', OrderHandler),
 
     ], default_host=host, **settings)
