@@ -30,7 +30,9 @@ def make_app(host='localhost'):
         ('/', IndexHandler),
         ('/search', SearchHandler),
         ('/cookie', CookieHandler),
-        ('/download', Async2DownloadHandler),
+        ('/download', DownloadHandler),
+        ('/download2', AsyncDownloadHandler),
+        ('/download3', Async2DownloadHandler),
         (r'/order/(?P<code>\d+)/(?P<id>\d+)', OrderHandler),
 
     ], default_host=host, **settings)
